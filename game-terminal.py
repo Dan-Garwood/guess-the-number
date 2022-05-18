@@ -120,7 +120,9 @@ def pick_difficulty():
 
     Returns:
         difficulty (int): An interger from 1-6 representing the user's
-            chosen difficulty.
+            chosen difficulty
+        hard_mode (bool): A boolean indicating whether the user selected a hard
+            difficulty
     """
     difficulty = None
     while difficulty is None:
@@ -147,36 +149,51 @@ def pick_difficulty():
             time.sleep(1)
             wrap_scroll()
 
-    return int(difficulty)
+    hard_mode = True if difficulty > 3 else False
+
+    return int(difficulty), hard_mode
 
 
 # Map the difficulty levels 1-6 modulo 3 to the min and max random numbers
 # for each level.
-difficulty_dict = {1: {'min': 1, 'max': 10},
-                   2: {'min': 1, 'max': 100},
-                   0: {'min': -1000, 'max': 1000}}
+difficulty_dict = {1: {'min': 1, 'max': 10, 'guesses': 5},
+                   2: {'min': 1, 'max': 100, 'guesses': 7},
+                   0: {'min': -1000, 'max': 1000, 'guesses': 11}}
 
 
 def pick_secret(difficulty):
     """
     Chooses the secret number within the constraints of the chosen
-    difficulty level.
+    difficulty level and initilizes the guesses_remaining variable. Prints
+    conversation to the terminal.
 
     Args:
         difficulty (int): The integer output from the pick_difficulty()
         function.
     """
+    wrap_scroll('Thinking...')
+
     min = difficulty_dict[difficulty % 3]['min']
     max = difficulty_dict[difficulty % 3]['max']
     secret = random.randrange(min, max + 1)
-    return secret
+    guesses_remaining = difficulty_dict[difficulty % 3]['guesses']
+
+    wrap_scroll('OK, I\'ve chosen a number!')
+    wrap_scroll()
+
+    return min, max, secret, guesses_remaining
+
+
+def solicit_guess(min, max, secret, hard_mode):
+    wrap_scroll(f'Choose a number between {min} and {max}.')
 
 
 def main():
     welcome()
     while True:
-        difficulty = pick_difficulty()
-        secret = pick_secret(difficulty)
+        difficulty, hard_mode = pick_difficulty()
+        min, max, secret, guesses_remaining = pick_secret(difficulty)
+
 
 
         break
