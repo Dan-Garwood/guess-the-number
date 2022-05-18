@@ -54,6 +54,28 @@ def wrap(str, width=print_width, passthrough=False):
 scroll_delay = 0.06
 
 
+def h_div_scroll(width=print_width, nl_above=0, nl_below=0,
+                 delay=scroll_delay):
+    """
+    Performs the h_div() function, then performs a time.sleep() delay.
+
+    Args:
+        width (int): The number of '-' characters to print in the divider
+            line; if using the default value, the print_width (int)
+            variable must have been set with the desired value
+        nl_above (int): The number of newline characters to print before the
+            divider
+        nl_below (int): The number of newline characters to print after the
+            divider
+        delay (float or int): The time in seconds to delay before allowing
+            the script to continue executing; if using the default value,
+            the scroll_delay (float) variable must have been set with the
+            desired value
+    """
+    h_div(width=width, nl_above=nl_above, nl_below=nl_below)
+    time.sleep(delay)
+
+
 def wrap_scroll(str='', width=print_width, delay=scroll_delay):
     """
     Applies the wrap() function to a string, then performs a time.sleep()
@@ -69,7 +91,6 @@ def wrap_scroll(str='', width=print_width, delay=scroll_delay):
             the scroll_delay (float) variable must have been set with the
             desired value
     """
-
     wrap(str, width=width)
     time.sleep(delay)
 
@@ -111,7 +132,8 @@ def pick_difficulty():
         if difficulty not in (str(i) for i in range(1, 7)):
             difficulty = None
             wrap_scroll()
-            wrap_scroll('Invalid input. Please try again.')
+            wrap('Invalid input. Please try again.')
+            h_div()
             time.sleep(1)
             wrap_scroll()
 
