@@ -1,6 +1,7 @@
 import os
 import time
 import textwrap as tw
+import random
 
 # Sets a var to the smaller of 80 characters or the user's terminal width.
 print_width = min(80, os.get_terminal_size().columns)
@@ -137,13 +138,30 @@ def pick_difficulty():
             time.sleep(1)
             wrap_scroll()
 
-    return difficulty
+    return int(difficulty)
+
+
+# Map the difficulty levels 1-6 to the min and max values for each level.
+difficulty_dict = {'min': {1: 1, 2: 1, 3: -1000, 4: 1, 5: 1, 6: -1000},
+                   'max': {1: 10, 2: 100, 3: 1000, 4: 10, 5: 100, 6: 1000}}
+
+
+def pick_secret(difficulty):
+    """
+    Chooses the secret number within the constraints of the chosen
+    difficulty level.
+    """
+    min = difficulty_dict['min'][difficulty]
+    max = difficulty_dict['max'][difficulty]
+    secret = random.randrange(min, max + 1)
+    return secret
 
 
 def main():
     welcome()
     while True:
         difficulty = pick_difficulty()
+        secret = pick_secret(difficulty)
 
 
         break
