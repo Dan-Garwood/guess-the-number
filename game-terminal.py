@@ -91,20 +91,30 @@ def welcome():
 
 
 def pick_difficulty():
-    wrap_scroll('Pick a difficulty level and number range:')
-    wrap_scroll()
-    wrap_scroll('Easy (Show previous guesses)')
-    wrap_scroll('   1. 1 - 10')
-    wrap_scroll('   2. 1 - 100')
-    wrap_scroll('   3. -1000 - 1000')
-    wrap_scroll()
-    wrap_scroll('Hard (Don\'t show guesses)')
-    wrap_scroll('   4. 1 - 10')
-    wrap_scroll('   5. 1 - 100')
-    wrap_scroll('   6. -1000 - 1000')
-    wrap_scroll()
+    difficulty = None
+    while difficulty is None:
+        wrap_scroll('Pick a difficulty level and number range:')
+        wrap_scroll()
+        wrap_scroll('Easy (Show previous guesses)')
+        wrap_scroll('   1. 1 - 10')
+        wrap_scroll('   2. 1 - 100')
+        wrap_scroll('   3. -1000 - 1000')
+        wrap_scroll()
+        wrap_scroll('Hard (Don\'t show guesses)')
+        wrap_scroll('   4. 1 - 10')
+        wrap_scroll('   5. 1 - 100')
+        wrap_scroll('   6. -1000 - 1000')
+        wrap_scroll()
 
-    difficulty = input('> ')
+        wrap_scroll('Enter the number 1-6 for your difficulty choice:')
+        difficulty = input('> ')
+        if difficulty not in (str(i) for i in range(1, 7)):
+            difficulty = None
+            wrap_scroll()
+            wrap_scroll('Invalid input. Please try again.')
+            time.sleep(1)
+            wrap_scroll()
+
     return difficulty
 
 
@@ -112,7 +122,7 @@ def main():
     welcome()
     while True:
         difficulty = pick_difficulty()
-        
+
 
         break
 
