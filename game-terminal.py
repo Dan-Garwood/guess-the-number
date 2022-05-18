@@ -1,5 +1,9 @@
 import os
+import time
 import textwrap as tw
+
+# Sets a var to the smaller of 80 characters or the user's terminal width.
+print_width = min(80, os.get_terminal_size().columns)
 
 
 def h_div(width=print_width, nl_above=0, nl_below=0, passthrough=False):
@@ -25,30 +29,93 @@ def h_div(width=print_width, nl_above=0, nl_below=0, passthrough=False):
         return div_str
 
 
-def wrap(str, width=print_width):
+def wrap(str, width=print_width, passthrough=False):
     """
     Wraps a text string to the desired width. If using the default value, the
     print_width (int) variable must have been set with the desired value.
+
+    Args:
+        str: The string to wrap
+        width (int): The maximum number of characters to allow per line; if
+            using the default value, the print_width (int) variable must
+            have been set with the desired value
+        passthrough (bool): If False, calls the print function; if True, returns
+            the text string without the print call
     """
     wrapped = '\n'.join(tw.wrap(str, width=width, replace_whitespace=False))
-    return wrapped
+
+    if passthrough is False:
+        print(wrapped)
+    else:
+        return wrapped
 
 
-def init():
+# Set a var with the delay time between printing new lines.
+scroll_delay = 0.06
+
+
+def wrap_scroll(str='', width=print_width, delay=scroll_delay):
     """
-    Performs preparatory actions, such as initializing variables, before
-    performing the main loop.
+    Applies the wrap() function to a string, then performs a time.sleep()
+    delay.
+
+    Args:
+        str: The string to wrap and print
+        width (int): The maximum number of characters to allow per line; if
+            using the default value, the print_width (int) variable must
+            have been set with the desired value
+        delay (float or int): The time in seconds to delay before allowing
+            the script to continue executing; if using the default value,
+            the scroll_delay (float) variable must have been set with the
+            desired value
     """
-    # Sets print_width to the smaller of 70 characters or the user's terminal
-    # width.
-    global print_width
-    print_width = min(70, os.get_terminal_size().columns)
+
+    wrap(str, width=width)
+    time.sleep(delay)
+
+
+def welcome():
+    h_div(nl_above=2, nl_below=1)
+    wrap_scroll('Guess the Number!')
+    wrap_scroll()
+    wrap_scroll()
+    wrap_scroll('How to play:')
+    wrap_scroll()
+    wrap_scroll('* The Computer will pick a secret number.')
+    wrap_scroll('* You guess what number the computer chose.')
+    wrap_scroll('* If your guess is too high or too low, Computer will '
+                'give you a hint.')
+    wrap_scroll('* See how many turns it takes you to win!')
+    wrap_scroll()
+    wrap_scroll()
+
+
+def pick_difficulty():
+    wrap_scroll('Pick a difficulty level and number range:')
+    wrap_scroll()
+    wrap_scroll('Easy (Show previous guesses)')
+    wrap_scroll('   1. 1 - 10')
+    wrap_scroll('   2. 1 - 100')
+    wrap_scroll('   3. -1000 - 1000')
+    wrap_scroll()
+    wrap_scroll('Hard (Don\'t show guesses)')
+    wrap_scroll('   4. 1 - 10')
+    wrap_scroll('   5. 1 - 100')
+    wrap_scroll('   6. -1000 - 1000')
+    wrap_scroll()
+
+    difficulty = input('> ')
+    return difficulty
 
 
 def main():
-    pass
+    welcome()
+    while True:
+        difficulty = pick_difficulty()
+        
+
+        break
 
 
 if __name__ == "__main__":
-    init()
     main()
