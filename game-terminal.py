@@ -97,6 +97,7 @@ def wrap_scroll(str='', width=print_width, delay=scroll_delay):
 
 
 def welcome():
+    """Prints introductory text to the terminal."""
     h_div(nl_above=2, nl_below=1)
     wrap_scroll('Guess the Number!')
     wrap_scroll()
@@ -113,6 +114,14 @@ def welcome():
 
 
 def pick_difficulty():
+    """
+    Prints instructions for the user to select game difficulty and solicits
+    input.
+
+    Returns:
+        difficulty (int): An interger from 1-6 representing the user's
+            chosen difficulty.
+    """
     difficulty = None
     while difficulty is None:
         wrap_scroll('Pick a difficulty level and number range:')
@@ -141,18 +150,24 @@ def pick_difficulty():
     return int(difficulty)
 
 
-# Map the difficulty levels 1-6 to the min and max values for each level.
-difficulty_dict = {'min': {1: 1, 2: 1, 3: -1000, 4: 1, 5: 1, 6: -1000},
-                   'max': {1: 10, 2: 100, 3: 1000, 4: 10, 5: 100, 6: 1000}}
+# Map the difficulty levels 1-6 modulo 3 to the min and max random numbers
+# for each level.
+difficulty_dict = {1: {'min': 1, 'max': 10},
+                   2: {'min': 1, 'max': 100},
+                   0: {'min': -1000, 'max': 1000}}
 
 
 def pick_secret(difficulty):
     """
     Chooses the secret number within the constraints of the chosen
     difficulty level.
+
+    Args:
+        difficulty (int): The integer output from the pick_difficulty()
+        function.
     """
-    min = difficulty_dict['min'][difficulty]
-    max = difficulty_dict['max'][difficulty]
+    min = difficulty_dict[difficulty % 3]['min']
+    max = difficulty_dict[difficulty % 3]['max']
     secret = random.randrange(min, max + 1)
     return secret
 
