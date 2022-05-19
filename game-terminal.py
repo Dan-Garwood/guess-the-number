@@ -132,8 +132,8 @@ def y_n_query(input_prompt='Yes or No? ',
 
 
 def welcome():
-    """Prints introductory text to the terminal."""
-    h_div(nl_above=2, nl_below=1)
+    """Clears the terminal and prints introductory text."""
+    os.system('cls||clear')
     wrap_scroll('Guess the Number!')
     wrap_scroll()
     wrap_scroll()
@@ -193,22 +193,19 @@ def pick_difficulty():
 def pick_secret(difficulty):
     """
     Chooses the secret number within the constraints of the chosen
-    difficulty level and initilizes the guesses_remaining variable. Prints
-    conversation to the terminal.
+    difficulty level and initilizes the guesses_remaining variable. Clears
+    screen in preparation for guesses.
 
     Args:
         difficulty (int): The integer output from the pick_difficulty()
         function.
     """
-    wrap_scroll('Thinking...')
-
     min = difficulty_dict[difficulty % 3]['min']
     max = difficulty_dict[difficulty % 3]['max']
     secret = random.randrange(min, max + 1)
     guess_limit = difficulty_dict[difficulty % 3]['guesses']
 
-    wrap_scroll('OK, I\'ve chosen a number!')
-    wrap_scroll()
+    os.system('cls||clear')  # Clear screen
 
     return min, max, secret, guess_limit
 
@@ -271,6 +268,7 @@ def solicit_guess(min, max, guesses_remaining, hard_mode, prev_guess_list):
 
 
 def check_guess(guess, secret, guess_limit, guesses_remaining):
+    os.system('cls||clear')  # Clear screen between guesses
     if guess == secret:
         turns = guess_limit - guesses_remaining
         wrap_scroll('Good guess!')
@@ -316,6 +314,7 @@ def main():
                                                  + ' continue.',
                                                  passthrough=True) + '\n> ')
 
+        os.system('cls||clear')  # Clear screen
         if play_again == 'no':
             break
 
