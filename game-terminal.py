@@ -309,9 +309,15 @@ def main():
                         + f'which was {secret}.')
 
         # Offer a new game.
+        wrap_scroll('Would you like to play again?')
+        wrap_scroll('Yes or No (Y/N):')
+        play_again = y_n_query(input_prompt='> ',
+                               error_prompt=wrap('Sorry, I need Yes or No to'
+                                                 + ' continue.',
+                                                 passthrough=True) + '\n> ')
 
-
-        break
+        if play_again == 'no':
+            break
 
 
 if __name__ == "__main__":
