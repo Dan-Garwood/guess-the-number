@@ -106,6 +106,31 @@ def wrap_scroll(str='', width=print_width, delay=scroll_delay):
     time.sleep(delay)
 
 
+def y_n_query(input_prompt='Yes or No? ',
+              error_prompt='Input of Yes or No required. '):
+    """
+    Prompts the user to answer Yes or No (Y or N), case insensitve.
+
+    Args:
+        input_prompt (str): The prompt to the user
+        error_prompt (str): The prompt if the input is not accepted
+
+    Returns:
+        y_or_n (str): Returns 'yes' or 'no' depending on the user's input
+    """
+    y_or_n = input(input_prompt).lower()
+
+    while y_or_n not in {'y', 'ye', 'ys', 'yes', 'n', 'no'}:
+        y_or_n = input(error_prompt).lower()
+
+    if y_or_n in {'n', 'no'}:
+        y_or_n = 'no'
+    else:
+        y_or_n = 'yes'
+
+    return y_or_n
+
+
 def welcome():
     """Prints introductory text to the terminal."""
     h_div(nl_above=2, nl_below=1)
