@@ -227,7 +227,7 @@ def solicit_guess(min, max, guesses_remaining, hard_mode, prev_guess_list):
         wrap_scroll(f'Choose a number between {min} and {max}.')
         wrap_scroll(f'You have {guesses_remaining} guesses left.')
         if hard_mode is False and prev_guess_list != []:
-            prev_guess_str = list_to_string(prev_guess_list.sort(), oxford=True)
+            prev_guess_str = list_to_string(prev_guess_list, oxford=True)
             wrap_scroll(f'You have already guessed {prev_guess_str}')
         guess = input('> ')
 
@@ -260,6 +260,7 @@ def check_guess(guess, secret, guess_limit, guesses_remaining):
 def main():
     welcome()
     while True:
+        # Prompt user to set the difficulty, then choose the secret number.
         difficulty, hard_mode = pick_difficulty()
         min, max, secret, guess_limit = pick_secret(difficulty)
 
@@ -268,10 +269,13 @@ def main():
         guess = None
         prev_guess_list = []
 
+        # Solicit guesses and compare to the secret number. Loop as needed.
         while guess != secret and guesses_remaining > 0:
             guess, guesses_remaining = solicit_guess(min, max,
                                                      guesses_remaining,
                                                      hard_mode, prev_guess_list)
+            prev_guess_list.append(guess)
+            prev_guess_list.sort()
             check_guess(guess, secret, guess_limit, guesses_remaining)
 
 
