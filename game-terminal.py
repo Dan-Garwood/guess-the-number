@@ -3,8 +3,22 @@ import time
 import textwrap as tw
 import random
 
+# ------------------------------------------------------------------------------
+# Environment Parameters
+
 # Sets a var to the smaller of 80 characters or the user's terminal width.
 print_width = min(80, os.get_terminal_size().columns)
+# Set a var with the delay time between printing new lines.
+scroll_delay = 0.06
+# ------------------------------------------------------------------------------
+# Game Parameters
+
+# Map the difficulty levels 1-6 modulo 3 to the min and max random numbers
+# for each level.
+difficulty_dict = {1: {'min': 1, 'max': 10, 'guesses': 5},
+                   2: {'min': 1, 'max': 100, 'guesses': 7},
+                   0: {'min': -1000, 'max': 1000, 'guesses': 11}}
+# ------------------------------------------------------------------------------
 
 
 def h_div(width=print_width, nl_above=0, nl_below=0, passthrough=False):
@@ -49,10 +63,6 @@ def wrap(str, width=print_width, passthrough=False):
         print(wrapped)
     else:
         return wrapped
-
-
-# Set a var with the delay time between printing new lines.
-scroll_delay = 0.06
 
 
 def h_div_scroll(width=print_width, nl_above=0, nl_below=0,
@@ -155,13 +165,6 @@ def pick_difficulty():
     return difficulty, hard_mode
 
 
-# Map the difficulty levels 1-6 modulo 3 to the min and max random numbers
-# for each level.
-difficulty_dict = {1: {'min': 1, 'max': 10, 'guesses': 5},
-                   2: {'min': 1, 'max': 100, 'guesses': 7},
-                   0: {'min': -1000, 'max': 1000, 'guesses': 11}}
-
-
 def pick_secret(difficulty):
     """
     Chooses the secret number within the constraints of the chosen
@@ -183,10 +186,6 @@ def pick_secret(difficulty):
     wrap_scroll()
 
     return min, max, secret, guesses_remaining
-
-
-# Initialize the prev_guesses list variable
-prev_guesses = []
 
 
 def list_to_string(list, conj='and', oxford=False):
@@ -222,12 +221,28 @@ def list_to_string(list, conj='and', oxford=False):
     return str
 
 
-def solicit_guess(min, max, secret, hard_mode):
-    wrap_scroll(f'Choose a number between {min} and {max}.')
-    wrap_scroll(f'You have {guesses_remaining} guesses left.')
-    if hard_mode is False and prev_guesses != []:
-        wrap_scroll(f'You have already guessed {prev_guesses}')
-    guess = input('> ')
+def solicit_guess(min, max, guesses_remaining, hard_mode, prev_guess_list):
+    guess = None
+    while guess is None:
+        wrap_scroll(f'Choose a number between {min} and {max}.')
+        wrap_scroll(f'You have {guesses_remaining} guesses left.')
+        if hard_mode is False and prev_guess_list != []:
+            prev_guess_str = list_to_string(prev_guess_list.sort(), oxford=True)
+            wrap_scroll(f'You have already guessed {prev_guess_str}')
+        guess = input('> ')
+
+        if guess not in (str(i) for i in range(min, max + 1)):
+            guess = None
+            wrap_scroll()
+            wrap('Invalid input. Please try again.')
+            h_div()
+            time.sleep(1)
+            wrap_scroll()
+
+    guess = int(guess)
+    guesses_remaining -= 1
+
+    return guess, guesses_remaining
 
 
 def main():
@@ -235,7 +250,14 @@ def main():
     while True:
         difficulty, hard_mode = pick_difficulty()
         min, max, secret, guesses_remaining = pick_secret(difficulty)
-        print(guesses_remaining)
+
+        # Initialize variables for this round.
+        guess = None
+        prev_guess_list = []
+
+        while guess != secret and guesses_remaining > 0:
+            guess = solicit_guess(min, max, guesses_remaining, hard_mode,
+                                  prev_guess_list)
 
 
         break
