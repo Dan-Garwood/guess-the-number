@@ -185,8 +185,49 @@ def pick_secret(difficulty):
     return min, max, secret, guesses_remaining
 
 
+# Initialize the prev_guesses list variable
+prev_guesses = []
+
+
+def list_to_string(list, conj='and', oxford=False):
+    """
+    Handle conversion of lists into printable strings.
+
+    Args:
+        list (list): The list of items to convert to a string
+        conj (str): The coordinating conjunction to be used between the
+            final two items in the list
+        oxford (bool): Indicate whether to use an oxford comma before the last
+            item
+    """
+    oxford = ',' if oxford is True else ''
+
+    list_len = len(list)
+
+    if list_len == 0:
+        str = ''
+    elif list_len == 1:
+        str = str(list[0])
+    elif list_len == 2:
+        str = f'{list[0]} {conj} {list[1]}'
+    else:
+        for element in list:
+            if list.index(element) == 0:
+                str = f'{element}'
+            elif list.index(element) < list_len - 1:
+                str += f', {element}'
+            else:
+                str += f'{oxford} {conj} {element}'
+
+    return str
+
+
 def solicit_guess(min, max, secret, hard_mode):
     wrap_scroll(f'Choose a number between {min} and {max}.')
+    wrap_scroll(f'You have {guesses_remaining} guesses left.')
+    if hard_mode is False and prev_guesses != []:
+        wrap_scroll(f'You have already guessed {prev_guesses}')
+    guess = input('> ')
 
 
 def main():
