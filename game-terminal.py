@@ -180,12 +180,12 @@ def pick_secret(difficulty):
     min = difficulty_dict[difficulty % 3]['min']
     max = difficulty_dict[difficulty % 3]['max']
     secret = random.randrange(min, max + 1)
-    guesses_remaining = difficulty_dict[difficulty % 3]['guesses']
+    guess_limit = difficulty_dict[difficulty % 3]['guesses']
 
     wrap_scroll('OK, I\'ve chosen a number!')
     wrap_scroll()
 
-    return min, max, secret, guesses_remaining
+    return min, max, secret, guess_limit
 
 
 def list_to_string(list, conj='and', oxford=False):
@@ -245,19 +245,34 @@ def solicit_guess(min, max, guesses_remaining, hard_mode, prev_guess_list):
     return guess, guesses_remaining
 
 
+def check_guess(guess, secret, guess_limit, guesses_remaining):
+    if guess == secret:
+        turns = guess_limit - guesses_remaining
+        wrap_scroll('Good guess!')
+        wrap_scroll(f'It took you {turns} turns to guess my number, which was '
+                    + f'{secret}.')
+    elif guess < secret:
+        wrap_scroll(f'Your guess, {guess}, is too low.')
+    elif guess > secret:
+        wrap_scroll(f'Your guess, {guess}, is too high.')
+
+
 def main():
     welcome()
     while True:
         difficulty, hard_mode = pick_difficulty()
-        min, max, secret, guesses_remaining = pick_secret(difficulty)
+        min, max, secret, guess_limit = pick_secret(difficulty)
 
         # Initialize variables for this round.
+        guesses_remaining = guess_limit
         guess = None
         prev_guess_list = []
 
         while guess != secret and guesses_remaining > 0:
-            guess = solicit_guess(min, max, guesses_remaining, hard_mode,
-                                  prev_guess_list)
+            guess, guesses_remaining = solicit_guess(min, max,
+                                                     guesses_remaining,
+                                                     hard_mode, prev_guess_list)
+            check_guess(guess, secret, guess_limit, guesses_remaining)
 
 
         break
