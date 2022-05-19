@@ -149,9 +149,10 @@ def pick_difficulty():
             time.sleep(1)
             wrap_scroll()
 
+    difficulty = int(difficulty)
     hard_mode = True if difficulty > 3 else False
 
-    return int(difficulty), hard_mode
+    return difficulty, hard_mode
 
 
 # Map the difficulty levels 1-6 modulo 3 to the min and max random numbers
@@ -193,7 +194,7 @@ def main():
     while True:
         difficulty, hard_mode = pick_difficulty()
         min, max, secret, guesses_remaining = pick_secret(difficulty)
-
+        print(guesses_remaining)
 
 
         break
