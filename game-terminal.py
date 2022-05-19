@@ -207,7 +207,7 @@ def list_to_string(list, conj='and', oxford=False):
     if list_len == 0:
         str = ''
     elif list_len == 1:
-        str = str(list[0])
+        str = f'{list[0]}'
     elif list_len == 2:
         str = f'{list[0]} {conj} {list[1]}'
     else:
