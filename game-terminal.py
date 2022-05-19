@@ -133,19 +133,21 @@ def y_n_query(input_prompt='Yes or No? ',
 
 def welcome():
     """Clears the terminal and prints introductory text."""
-    os.system('cls||clear')
-    wrap_scroll('Guess the Number!')
-    wrap_scroll()
-    wrap_scroll()
-    wrap_scroll('How to play:')
-    wrap_scroll()
-    wrap_scroll('* The Computer will pick a secret number.')
-    wrap_scroll('* You guess what number the computer chose.')
-    wrap_scroll('* If your guess is too high or too low, Computer will '
+    os.system('cls||clear')  # Clear screen
+    wrap('Guess the Number!')
+    time.sleep(0.6)
+    print()
+    print()
+    wrap('How to play:')
+    print()
+    wrap('* The Computer will pick a secret number.')
+    wrap('* You guess what number the computer chose.')
+    wrap('* If your guess is too high or too low, Computer will '
                 'give you a hint.')
-    wrap_scroll('* See how many turns it takes you to win!')
-    wrap_scroll()
-    wrap_scroll()
+    wrap('* See how many turns it takes you to win!')
+    time.sleep(1)
+    print()
+    print()
 
 
 def pick_difficulty():
@@ -161,28 +163,27 @@ def pick_difficulty():
     """
     difficulty = None
     while difficulty is None:
-        wrap_scroll('Pick a difficulty level and number range:')
-        wrap_scroll()
-        wrap_scroll('Easy (Show previous guesses)')
-        wrap_scroll('   1. 1 - 10')
-        wrap_scroll('   2. 1 - 100')
-        wrap_scroll('   3. -1000 - 1000')
-        wrap_scroll()
-        wrap_scroll('Hard (Don\'t show guesses)')
-        wrap_scroll('   4. 1 - 10')
-        wrap_scroll('   5. 1 - 100')
-        wrap_scroll('   6. -1000 - 1000')
-        wrap_scroll()
+        wrap('Pick a difficulty level and number range:')
+        print()
+        wrap('Easy (Show previous guesses)')
+        wrap('   1. 1 - 10')
+        wrap('   2. 1 - 100')
+        wrap('   3. -1000 - 1000')
+        print()
+        wrap('Hard (Don\'t show guesses)')
+        wrap('   4. 1 - 10')
+        wrap('   5. 1 - 100')
+        wrap('   6. -1000 - 1000')
+        print()
 
-        wrap_scroll('Enter the number 1-6 for your difficulty choice:')
+        wrap('Enter the number 1-6 for your difficulty choice:')
         difficulty = input('> ')
         if difficulty not in (str(i) for i in range(1, 7)):
             difficulty = None
-            wrap_scroll()
+            print()
             wrap('Invalid input. Please try again.')
-            h_div()
             time.sleep(1)
-            wrap_scroll()
+            os.system('cls||clear')  # Clear screen
 
     difficulty = int(difficulty)
     hard_mode = True if difficulty > 3 else False
@@ -246,20 +247,19 @@ def list_to_string(list, conj='and', oxford=False):
 def solicit_guess(min, max, guesses_remaining, hard_mode, prev_guess_list):
     guess = None
     while guess is None:
-        wrap_scroll(f'Choose a number between {min} and {max}.')
-        wrap_scroll(f'You have {guesses_remaining} guesses left.')
+        wrap(f'Choose a number between {min} and {max}.')
+        wrap(f'You have {guesses_remaining} guesses left.')
         if hard_mode is False and prev_guess_list != []:
             prev_guess_str = list_to_string(prev_guess_list, oxford=True)
-            wrap_scroll(f'You have already guessed {prev_guess_str}')
+            wrap(f'You have already guessed {prev_guess_str}')
         guess = input('> ')
 
         if guess not in (str(i) for i in range(min, max + 1)):
             guess = None
-            wrap_scroll()
+            print()
             wrap('Invalid input. Please try again.')
-            h_div()
             time.sleep(1)
-            wrap_scroll()
+            os.system('cls||clear')  # Clear screen
 
     guess = int(guess)
     guesses_remaining -= 1
@@ -271,13 +271,13 @@ def check_guess(guess, secret, guess_limit, guesses_remaining):
     os.system('cls||clear')  # Clear screen between guesses
     if guess == secret:
         turns = guess_limit - guesses_remaining
-        wrap_scroll('Good guess!')
-        wrap_scroll(f'It took you {turns} turns to guess my number, which was '
+        wrap('Good guess!')
+        wrap(f'It took you {turns} turns to guess my number, which was '
                     + f'{secret}.')
     elif guess < secret:
-        wrap_scroll(f'Your guess, {guess}, is too low.')
+        wrap(f'Your guess, {guess}, is too low.')
     elif guess > secret:
-        wrap_scroll(f'Your guess, {guess}, is too high.')
+        wrap(f'Your guess, {guess}, is too high.')
 
 
 def main():
@@ -303,12 +303,12 @@ def main():
 
         # Handle guesses_remaining == 0 case.
         if guesses_remaining == 0:
-            wrap_scroll('Good try! You ran out of turns to guess my number,'
+            wrap('Good try! You ran out of turns to guess my number,'
                         + f'which was {secret}.')
 
         # Offer a new game.
-        wrap_scroll('Would you like to play again?')
-        wrap_scroll('Yes or No (Y/N):')
+        wrap('Would you like to play again?')
+        wrap('Yes or No (Y/N):')
         play_again = y_n_query(input_prompt='> ',
                                error_prompt=wrap('Sorry, I need Yes or No to'
                                                  + ' continue.',
