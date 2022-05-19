@@ -177,6 +177,7 @@ def pick_difficulty():
         print()
 
         wrap('Enter the number 1-6 for your difficulty choice:')
+        print()
         difficulty = input('> ')
         if difficulty not in (str(i) for i in range(1, 7)):
             difficulty = None
@@ -251,7 +252,8 @@ def solicit_guess(min, max, guesses_remaining, hard_mode, prev_guess_list):
         wrap(f'You have {guesses_remaining} guesses left.')
         if hard_mode is False and prev_guess_list != []:
             prev_guess_str = list_to_string(prev_guess_list, oxford=True)
-            wrap(f'You have already guessed {prev_guess_str}')
+            wrap(f'You have already guessed {prev_guess_str}.')
+        print()
         guess = input('> ')
 
         if guess not in (str(i) for i in range(min, max + 1)):
@@ -269,15 +271,18 @@ def solicit_guess(min, max, guesses_remaining, hard_mode, prev_guess_list):
 
 def check_guess(guess, secret, guess_limit, guesses_remaining):
     os.system('cls||clear')  # Clear screen between guesses
+    turns = guess_limit - guesses_remaining
     if guess == secret:
-        turns = guess_limit - guesses_remaining
         wrap('Good guess!')
         wrap(f'It took you {turns} turns to guess my number, which was '
                     + f'{secret}.')
-    elif guess < secret:
+        print()
+    elif guess < secret and turns != guess_limit:
         wrap(f'Your guess, {guess}, is too low.')
-    elif guess > secret:
+        print()
+    elif guess > secret and turns != guess_limit:
         wrap(f'Your guess, {guess}, is too high.')
+        print()
 
 
 def main():
@@ -303,16 +308,20 @@ def main():
 
         # Handle guesses_remaining == 0 case.
         if guesses_remaining == 0:
-            wrap('Good try! You ran out of turns to guess my number,'
+            wrap('Good try! You ran out of turns to guess my number, '
                         + f'which was {secret}.')
+            print()
 
         # Offer a new game.
         wrap('Would you like to play again?')
         wrap('Yes or No (Y/N):')
+        print()
         play_again = y_n_query(input_prompt='> ',
-                               error_prompt=wrap('Sorry, I need Yes or No to'
-                                                 + ' continue.',
-                                                 passthrough=True) + '\n> ')
+                               error_prompt=('\n'
+                                            + wrap('Sorry, I need Yes or No to'
+                                                   + ' continue.',
+                                                   passthrough=True)
+                                            + '\n\n> '))
 
         os.system('cls||clear')  # Clear screen
         if play_again == 'no':
