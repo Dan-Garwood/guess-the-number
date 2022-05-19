@@ -278,6 +278,13 @@ def main():
             prev_guess_list.sort()
             check_guess(guess, secret, guess_limit, guesses_remaining)
 
+        # Handle guesses_remaining == 0 case.
+        if guesses_remaining == 0:
+            wrap_scroll('Good try! You ran out of turns to guess my number,'
+                        + f'which was {secret}.')
+
+        # Offer a new game.
+
 
         break
 
