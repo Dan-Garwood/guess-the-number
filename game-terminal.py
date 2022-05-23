@@ -244,9 +244,18 @@ def list_to_string(list, conj='and', oxford=False):
     return str
 
 
-def solicit_guess(min, max, guesses_remaining, hard_mode, prev_guess_list):
+def solicit_guess(min, max, secret, guesses_remaining, hard_mode, last_guess,
+                  prev_guess_list):
     guess = None
     while guess is None:
+        if last_guess is not None:
+            if last_guess < secret:
+                wrap(f'Your guess, {last_guess}, is too low.')
+                print()
+            elif last_guess < secret:
+                wrap(f'Your guess, {last_guess}, is too high.')
+                print()
+
         wrap(f'Choose a number between {min} and {max}.')
         wrap(f'You have {guesses_remaining} guesses left.')
         if hard_mode is False and prev_guess_list != []:
@@ -276,12 +285,9 @@ def check_guess(guess, secret, guess_limit, guesses_remaining):
         wrap(f'It took you {turns} turns to guess my number, which was '
                     + f'{secret}.')
         print()
-    elif guess < secret and turns != guess_limit:
-        wrap(f'Your guess, {guess}, is too low.')
-        print()
-    elif guess > secret and turns != guess_limit:
-        wrap(f'Your guess, {guess}, is too high.')
-        print()
+    else:
+        last_guess = guess
+        return last_guess
 
 
 def main():
@@ -294,16 +300,19 @@ def main():
         # Initialize variables for this round.
         guesses_remaining = guess_limit
         guess = None
+        last_guess = None
         prev_guess_list = []
 
         # Solicit guesses and compare to the secret number. Loop as needed.
         while guess != secret and guesses_remaining > 0:
-            guess, guesses_remaining = solicit_guess(min, max,
+            guess, guesses_remaining = solicit_guess(min, max, secret,
                                                      guesses_remaining,
-                                                     hard_mode, prev_guess_list)
+                                                     hard_mode, last_guess,
+                                                     prev_guess_list)
             prev_guess_list.append(guess)
             prev_guess_list.sort()
-            check_guess(guess, secret, guess_limit, guesses_remaining)
+            last_guess = check_guess(guess, secret, guess_limit,
+                                     guesses_remaining)
 
         # Handle guesses_remaining == 0 case.
         if guesses_remaining == 0:
