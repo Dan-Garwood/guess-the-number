@@ -21,29 +21,6 @@ difficulty_dict = {1: {'min': 1, 'max': 10, 'guesses': 5},
 # ------------------------------------------------------------------------------
 
 
-def h_div(width=print_width, nl_above=0, nl_below=0, passthrough=False):
-    """
-    Prints a series of dashes to produce a horizontal divider.
-
-    Args:
-        width (int): The number of '-' characters to print in the divider line;
-            if using the default value, the print_width (int) variable must have
-            been set with the desired value
-        nl_above (int): The number of newline characters to print before the
-            divider
-        nl_below (int): The number of newline characters to print after the
-            divider
-        passthrough (bool): If False, calls the print function; if True,
-            returns the text string without the print call
-    """
-    div_str = ('\n' * nl_above) + ('-' * width) + ('\n' * nl_below)
-
-    if passthrough is False:
-        print(div_str)
-    else:
-        return div_str
-
-
 def wrap(str, width=print_width, passthrough=False):
     """
     Wraps a text string to the desired width. If using the default value, the
@@ -63,28 +40,6 @@ def wrap(str, width=print_width, passthrough=False):
         print(wrapped)
     else:
         return wrapped
-
-
-def h_div_scroll(width=print_width, nl_above=0, nl_below=0,
-                 delay=scroll_delay):
-    """
-    Performs the h_div() function, then performs a time.sleep() delay.
-
-    Args:
-        width (int): The number of '-' characters to print in the divider
-            line; if using the default value, the print_width (int)
-            variable must have been set with the desired value
-        nl_above (int): The number of newline characters to print before the
-            divider
-        nl_below (int): The number of newline characters to print after the
-            divider
-        delay (float or int): The time in seconds to delay before allowing
-            the script to continue executing; if using the default value,
-            the scroll_delay (float) variable must have been set with the
-            desired value
-    """
-    h_div(width=width, nl_above=nl_above, nl_below=nl_below)
-    time.sleep(delay)
 
 
 def wrap_scroll(str='', width=print_width, delay=scroll_delay):
