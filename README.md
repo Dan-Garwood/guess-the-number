@@ -1,6 +1,6 @@
 # guess-the-number
 
-Implement a Guess the Number game in Python, suggested as a beginner project on the reddit.com/r/learnprogramming wiki.
+Implements a Guess the Number game in Python, suggested as a beginner project on the reddit.com/r/learnprogramming wiki.
 
 ## Installation
 
@@ -8,7 +8,8 @@ Download game-terminal.py and save it to your preferred location.
 
 ## Usage
 
-```python game-terminal.py
+```
+python game-terminal.py
 ```
 
 ## Contributing
