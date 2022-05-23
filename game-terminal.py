@@ -142,8 +142,8 @@ def welcome():
     print()
     wrap('* The Computer will pick a secret number.')
     wrap('* You guess what number the computer chose.')
-    wrap('* If your guess is too high or too low, Computer will '
-                'give you a hint.')
+    wrap('* If your guess is too high or too low, Computer will give you a '
+         + 'hint.')
     wrap('* See how many turns it takes you to win!')
     time.sleep(1)
     print()
@@ -283,7 +283,7 @@ def check_guess(guess, secret, guess_limit, guesses_remaining):
     if guess == secret:
         wrap('Good guess!')
         wrap(f'It took you {turns} turns to guess my number, which was '
-                    + f'{secret}.')
+             + f'{secret}.')
         print()
     else:
         last_guess = guess
@@ -316,8 +316,8 @@ def main():
 
         # Handle guesses_remaining == 0 case.
         if guesses_remaining == 0:
-            wrap('Good try! You ran out of turns to guess my number, '
-                        + f'which was {secret}.')
+            wrap('Good try! You ran out of turns to guess my number, which was '
+                 + f'{secret}.')
             print()
 
         # Offer a new game.
