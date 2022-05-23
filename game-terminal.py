@@ -186,6 +186,7 @@ def pick_difficulty():
             time.sleep(1)
             os.system('cls||clear')  # Clear screen
 
+    os.system('cls||clear')  # Clear screen
     difficulty = int(difficulty)
     hard_mode = True if difficulty > 3 else False
 
@@ -206,8 +207,6 @@ def pick_secret(difficulty):
     max = difficulty_dict[difficulty % 3]['max']
     secret = random.randrange(min, max + 1)
     guess_limit = difficulty_dict[difficulty % 3]['guesses']
-
-    os.system('cls||clear')  # Clear screen
 
     return min, max, secret, guess_limit
 
