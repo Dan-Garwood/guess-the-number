@@ -268,6 +268,7 @@ def main():
 
         # Handle guesses_remaining == 0 case.
         if guesses_remaining == 0:
+            os.system('cls||clear')  # Clear screen
             wrap('Good try! You ran out of turns to guess my number, which was '
                  + f'{secret}.')
             print()
