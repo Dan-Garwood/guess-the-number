@@ -141,7 +141,6 @@ def pick_difficulty():
             time.sleep(1)
             os.system('cls||clear')  # Clear screen
 
-    os.system('cls||clear')  # Clear screen
     difficulty = int(difficulty)
     hard_mode = True if difficulty > 3 else False
 
@@ -203,11 +202,13 @@ def solicit_guess(min, max, secret, guesses_remaining, hard_mode, last_guess,
                   prev_guess_list):
     guess = None
     while guess is None:
+        os.system('cls||clear')  # Clear screen
+
         if last_guess is not None:
             if last_guess < secret:
                 wrap(f'Your guess, {last_guess}, is too low.')
                 print()
-            elif last_guess < secret:
+            elif last_guess > secret:
                 wrap(f'Your guess, {last_guess}, is too high.')
                 print()
 
@@ -224,7 +225,6 @@ def solicit_guess(min, max, secret, guesses_remaining, hard_mode, last_guess,
             print()
             wrap('Invalid input. Please try again.')
             time.sleep(1)
-            os.system('cls||clear')  # Clear screen
 
     guess = int(guess)
     guesses_remaining -= 1
@@ -233,16 +233,13 @@ def solicit_guess(min, max, secret, guesses_remaining, hard_mode, last_guess,
 
 
 def check_guess(guess, secret, guess_limit, guesses_remaining):
-    os.system('cls||clear')  # Clear screen between guesses
     turns = guess_limit - guesses_remaining
     if guess == secret:
+        os.system('cls||clear')  # Clear screen
         wrap('Good guess!')
         wrap(f'It took you {turns} turns to guess my number, which was '
              + f'{secret}.')
         print()
-    else:
-        last_guess = guess
-        return last_guess
 
 
 def main():
@@ -266,8 +263,8 @@ def main():
                                                      prev_guess_list)
             prev_guess_list.append(guess)
             prev_guess_list.sort()
-            last_guess = check_guess(guess, secret, guess_limit,
-                                     guesses_remaining)
+            check_guess(guess, secret, guess_limit, guesses_remaining)
+            last_guess = guess
 
         # Handle guesses_remaining == 0 case.
         if guesses_remaining == 0:
