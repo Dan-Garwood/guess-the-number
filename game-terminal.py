@@ -131,8 +131,7 @@ def pick_difficulty():
 def pick_secret(difficulty):
     """
     Chooses the secret number within the constraints of the chosen
-    difficulty level and initilizes the guesses_remaining variable. Clears
-    screen in preparation for guesses.
+    difficulty level and initilizes the guesses_remaining variable.
 
     Args:
         difficulty (int): The integer output from the pick_difficulty()
