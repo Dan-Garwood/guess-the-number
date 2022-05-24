@@ -36,10 +36,10 @@ def wrap(str, width=print_width, passthrough=False):
     """
     wrapped = '\n'.join(tw.wrap(str, width=width, replace_whitespace=False))
 
-    if passthrough is False:
-        print(wrapped)
-    else:
+    if passthrough:
         return wrapped
+    else:
+        print(wrapped)
 
 
 def y_n_query(input_prompt='Yes or No? ',
