@@ -42,25 +42,6 @@ def wrap(str, width=print_width, passthrough=False):
         return wrapped
 
 
-def wrap_scroll(str='', width=print_width, delay=scroll_delay):
-    """
-    Applies the wrap() function to a string, then performs a time.sleep()
-    delay.
-
-    Args:
-        str: The string to wrap and print
-        width (int): The maximum number of characters to allow per line; if
-            using the default value, the print_width (int) variable must
-            have been set with the desired value
-        delay (float or int): The time in seconds to delay before allowing
-            the script to continue executing; if using the default value,
-            the scroll_delay (float) variable must have been set with the
-            desired value
-    """
-    wrap(str, width=width)
-    time.sleep(delay)
-
-
 def y_n_query(input_prompt='Yes or No? ',
               error_prompt='Input of Yes or No required. '):
     """
