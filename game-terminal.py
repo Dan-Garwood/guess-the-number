@@ -123,7 +123,7 @@ def pick_difficulty():
             os.system('cls||clear')  # Clear screen
 
     difficulty = int(difficulty)
-    hard_mode = True if difficulty > 3 else False
+    hard_mode = difficulty > 3
 
     return difficulty, hard_mode
 
