@@ -200,16 +200,18 @@ def solicit_guess(min, max, secret, guesses_remaining, hard_mode, last_guess,
         print()
         guess = input('> ')
 
-        if guess not in (str(i) for i in range(min, max + 1)):
-            guess = None
-            print()
-            wrap('Invalid input. Please try again.')
-            time.sleep(1)
+        try:
+            guess = int(guess)
+            if guess >= min and guess <= max:
+                guesses_remaining -= 1
+                return guess, guesses_remaining
+        except ValueError:
+            pass
 
-    guess = int(guess)
-    guesses_remaining -= 1
-
-    return guess, guesses_remaining
+        guess = None
+        print()
+        wrap('Invalid input. Please try again.')
+        time.sleep(1)
 
 
 def check_guess(guess, secret, guess_limit, guesses_remaining):
