@@ -223,6 +223,13 @@ def check_guess(guess, secret, guess_limit, guesses_remaining):
              + f'{secret}.')
         print()
 
+    # Handle guesses_remaining == 0 case.
+    elif guesses_remaining == 0:
+        os.system('cls||clear')  # Clear screen
+        wrap('Good try! You ran out of turns to guess my number, which was '
+             + f'{secret}.')
+        print()
+
 
 def main():
     welcome()
@@ -247,13 +254,6 @@ def main():
             prev_guess_list.sort()
             check_guess(guess, secret, guess_limit, guesses_remaining)
             last_guess = guess
-
-        # Handle guesses_remaining == 0 case.
-        if guesses_remaining == 0:
-            os.system('cls||clear')  # Clear screen
-            wrap('Good try! You ran out of turns to guess my number, which was '
-                 + f'{secret}.')
-            print()
 
         # Offer a new game.
         wrap('Would you like to play again?')
