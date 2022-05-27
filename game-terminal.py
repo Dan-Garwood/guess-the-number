@@ -8,8 +8,6 @@ import random
 
 # Sets a var to the smaller of 80 characters or the user's terminal width.
 print_width = min(80, os.get_terminal_size().columns)
-# Set a var with the delay time between printing new lines.
-scroll_delay = 0.06
 # ------------------------------------------------------------------------------
 # Game Parameters
 
@@ -261,10 +259,10 @@ def main():
         print()
         play_again = y_n_query(input_prompt='> ',
                                error_prompt=('\n'
-                                            + wrap('Sorry, I need Yes or No to'
-                                                   + ' continue.',
-                                                   passthrough=True)
-                                            + '\n\n> '))
+                                             + wrap('Sorry, I need Yes or No to'
+                                                    + ' continue.',
+                                                    passthrough=True)
+                                             + '\n\n> '))
 
         os.system('cls||clear')  # Clear screen
         if play_again == 'no':
